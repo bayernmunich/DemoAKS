@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aks-node-app
+spec:
+  selector:
+    matchLabels:
+      app: aks-node-app
+  replicas: 2 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        app: aks-node-app
+    spec:
+      containers:
+      - name: aks-node-app
+        image: demotodoapp.azurecr.io/demo_aks
+        ports:
+        - containerPort: 3000
+
+# Services
+
+--- 
+apiVersion: v1
+kind: Service
+metadata: 
+  name: aksdemo-services
+spec: 
+  ports: 
+    - port: 3000
+  selector: 
+    app: aks-node-app
+  type: LoadBalancer
+
